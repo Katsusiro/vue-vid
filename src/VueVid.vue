@@ -8,6 +8,7 @@
                     v-if="Array.isArray(sources)"
                     @timeupdate="handleProgress" 
                     @click="togglePlay" 
+					@ended="ended"
                     ref="videoEl"
                     :poster="poster"
                 >
@@ -19,6 +20,7 @@
                     :src="sources"
                     @timeupdate="handleProgress" 
                     @click="togglePlay" 
+					@ended="ended"
                     ref="videoEl"
                     :poster="poster"
                 >
@@ -124,6 +126,9 @@
                 this.$refs.videoEl.paused ? this.$refs.videoEl.play() : this.$refs.videoEl.pause()
                 this.updateButton()
             },
+			ended() {
+				this.updateButton()
+			},
             updateButton() {
                 this.isPlaying = !this.isPlaying
             },
@@ -143,13 +148,7 @@
                 const scrubTime = (e.offsetX / this.$refs.progress.offsetWidth) * this.$refs.videoEl.duration
                 this.$refs.videoEl.currentTime = scrubTime
             },
-            toggleFullScreen() {
-                //if(this.$refs.videoWrap.mozRequestFullScreen) {
-                //    this.$refs.videoWrap.mozRequestFullScreen()
-                //} else {
-                //    this.$refs.videoWrap.webkitRequestFullScreen()
-                //} 
-				
+            toggleFullScreen() {				
 				if (!document.fullscreenElement && !document.mozFullScreenElement && 
 					!document.webkitFullscreenElement && !document.msFullscreenElement) {
 					if (this.$refs.videoWrap.requestFullscreen) {
@@ -248,7 +247,7 @@
          transform:translateY(0);
      }
      .VueVid:hover .Progress {
-         height:15px;
+         height:10px;
      }
      .VueVid__controls > *  {
          flex:1;
@@ -283,7 +282,7 @@
         height: 8.4px;
         cursor: pointer;
         box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0 0 1px rgba(13, 13, 13, 0);
-        background: rgba(255,255,255,0.8);
+        background: rgba(0,0,0,0.5);
         border-radius: 1.3px;
         border: 0.2px solid rgba(1, 1, 1, 0);
      }
