@@ -144,11 +144,36 @@
                 this.$refs.videoEl.currentTime = scrubTime
             },
             toggleFullScreen() {
-                if(this.$refs.videoWrap.mozRequestFullScreen) {
-                    this.$refs.videoWrap.mozRequestFullScreen()
-                } else {
-                    this.$refs.videoWrap.webkitRequestFullScreen()
-                } 
+                //if(this.$refs.videoWrap.mozRequestFullScreen) {
+                //    this.$refs.videoWrap.mozRequestFullScreen()
+                //} else {
+                //    this.$refs.videoWrap.webkitRequestFullScreen()
+                //} 
+				
+				if (!document.fullscreenElement && !document.mozFullScreenElement && 
+					!document.webkitFullscreenElement && !document.msFullscreenElement) {
+					if (this.$refs.videoWrap.requestFullscreen) {
+					  this.$refs.videoWrap.requestFullscreen();
+					} else if (this.$refs.videoWrap.msRequestFullscreen) {
+					  this.$refs.videoWrap.msRequestFullscreen();
+					} else if (this.$refs.videoWrap.mozRequestFullScreen) {
+					  this.$refs.videoWrap.mozRequestFullScreen();
+					} else if (this.$refs.videoWrap.webkitRequestFullscreen) {
+					  this.$refs.videoWrap.webkitRequestFullscreen();
+					}
+				} else {
+					if (document.cancelFullScreen) {
+						document.cancelFullScreen();
+					} else if (document.mozCancelFullScreen) {
+					  document.mozCancelFullScreen();
+					} else if (document.webkitCancelFullScreen) {
+					  document.webkitCancelFullScreen();
+					} else if (document.exitFullscreen) {
+					  document.exitFullscreen();
+					} else if (document.msExitFullscreen) {
+					  document.msExitFullscreen();
+					}
+				  } 
             },
             getType(path) {
                 const pattern = /\.[0-9a-z]+$/i
